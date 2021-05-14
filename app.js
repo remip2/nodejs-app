@@ -9,9 +9,10 @@ dbuser = process.env.DBUSER
 dbpassword = process.env.DBPASSWORD
 dbname = process.env.DBNAME
 dbhost = process.env.DBHOST
+dbport = process.env.DBPORT || 27017
 
 const MongoClient = require('mongodb').MongoClient
-const url = 'mongodb://' + dbuser + ':' + dbpassword + '@' + dbhost + ':27017'
+const url = 'mongodb://' + dbuser + ':' + dbpassword + '@' + dbhost + ':' + dbport
 let db
 let collection
 
