@@ -15,6 +15,8 @@ const url = 'mongodb://' + dbuser + ':' + dbpassword + '@' + dbhost + ':27017'
 let db
 let collection
 
+let status = true
+
 MongoClient.connect(url).then(client => {
   console.log("Connected successfully to mongo")
   db = client.db(dbname)
@@ -28,10 +30,23 @@ app.get('/', (req, res) => {
         { $inc: {value: 1} },
         { upsert: true }
     )
-    .then(result => { res.render('index.ejs', {count: result.value.value}) } )
+    .then(result => { res.render('index.ejs', {count: result.value.value, status: status}) } )
     .catch(error => { /* TODO error page*/ } )
 
     
+})
+
+app.get('/status', (req, res) => {
+  if (status) {
+    res.send("All good")
+  } else {
+    res.status(500).send("Something wrong")
+  }
+})
+
+app.get('/toggle', (req, res) => {
+  status = !status
+  res.send("<h3>Status changed<p><a href='/'>back</a>")
 })
 
 app.listen(port, () => {
