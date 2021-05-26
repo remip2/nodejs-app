@@ -8,7 +8,9 @@ const util = require('util')
 
 app.set('view engine', 'ejs')
 
-app.use(morgan('combined'))
+app.use(morgan('combined', {
+  skip: function (req, res) { return req.path == '/status'}
+}))
 
 dbuser = process.env.DBUSER
 dbpassword = process.env.DBPASSWORD
